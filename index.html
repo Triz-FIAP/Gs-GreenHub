@@ -15,7 +15,7 @@
 <body>
     <aside>
         <nav>
-            <h1 class="title"><a href="index.html"><span>green</span>hub</a></h1>
+            <h1 class="title"><img src="assets/images/greenhub.svg" alt="logo of Greenhub"></h1>
             <a href="" class="menu-active"><span class="material-symbols-outlined">
                     dashboard
                 </span>Dashboard</a>
@@ -148,58 +148,94 @@
                 </div>
             </div>
             <div class="resources">
-                <div>
+                <div class="resources-title">
                     <h3>Recursos</h3>
                     <p>ver detalhes</p>
                 </div>
                 <div>
-                    <div>
+                    <div class="resources-informations">
                         <div>
-                            <p>Água</p>
+                            <p> <span class="material-symbols-outlined">
+                                    water_drop
+                                </span> Água</p>
                             <div class="progress-bar">
                                 <div class="progress-fill progress-fill-water" style="--value:85"></div>
                             </div>
                             <p>85%</p>
                         </div>
                         <div>
-                            <p>Energia</p>
+                            <p><span class="material-symbols-outlined">
+                                    battery_android_frame_3
+                                </span>Energia</p>
                             <div class="progress-bar">
                                 <div class="progress-fill " style="--value:70"></div>
                             </div>
                             <p>70%</p>
                         </div>
                         <div>
-                            <p>Alimentos</p>
+                            <p><span class="material-symbols-outlined">
+                                    nutrition
+                                </span> Alimentos</p>
                             <div class="progress-bar">
                                 <div class="progress-fill " style="--value:85"></div>
                             </div>
                             <p>85%</p>
                         </div>
                         <div>
-                            <p>Oxigênio</p>
+                            <p><span class="material-symbols-outlined">
+                                    cloud
+                                </span>Oxigênio</p>
                             <div class="progress-bar">
                                 <div class="progress-fill progress-fill-water" style="--value:95"></div>
                             </div>
                             <p>95%</p>
                         </div>
                     </div>
-                    <!-- graph -->
+                    <div class="resources-chart-container">
+                        <div id="resources-chart"></div>
+                        <p>Eficiência dos recursos</p>
+                    </div>
                 </div>
             </div>
-            <div>
+            <div class="confort-container">
                 <h3>Temperatura interna</h3>
+                <div>
+                    <span class="material-symbols-outlined">
+                        thermometer
+                    </span>
+                    <p>22.6<sub>°c</sub></p>
+                    <p>ideal</p>
+                    <p>conforto térmico</p>
+                </div>
             </div>
-            <div>
+            <div class="humidity-container">
                 <h3>Umidade</h3>
+                <div>
+                    <span class="material-symbols-outlined">
+                        water
+                    </span>
+                    <p>45%</p>
+                    <p>ideal</p>
+                    <p>umidade relativa</p>
+                </div>
             </div>
-            <div class="environmental-history">
-                <h3>Histórico ambiental</h3>
+            <div class="environmental-history-container">
+                <div class="environmental-history-header">
+                    <div class="environmental-history-titles">
+                        <h3>Histórico ambiental</h3>
+                        <p>Evolução dos indicadores nas últimas 24 horas</p>
+                    </div>
+                    <p>Últimas 24 horas <span class="material-symbols-outlined">
+                            keyboard_arrow_down
+                        </span></p>
+                </div>
+                <div id="line-chart"></div>
             </div>
         </section>
     </main>
 
     <script>
-        var options = {
+        var options = [{
             series: [92],
 
             chart: {
@@ -245,14 +281,197 @@
             fill: {
                 colors: ['var(--green)']
             }
-        };
+        }, {
+            series: [85],
+
+            chart: {
+                height: 200,
+                type: 'radialBar',
+                background: 'transparent',
+                sparkline: {
+                    enabled: true
+                }
+            },
+
+            plotOptions: {
+                radialBar: {
+                    offsetX: -50,
+                    hollow: {
+                        size: '50%',
+                        background: 'transparent'
+                    },
+
+                    track: {
+                        show: false
+                    },
+
+                    dataLabels: {
+                        show: true,
+
+                        name: {
+                            show: false
+                        },
+
+                        value: {
+                            show: true,
+                            fontSize: '30px',
+                            fontWeight: 600,
+                            color: '#ffffff',
+                            offsetY: 10,
+                            formatter: function (val) {
+                                return parseInt(val) + '%';
+                            }
+                        }
+                    }
+                }
+            },
+
+
+            fill: {
+                colors: ['var(--blue)']
+            }
+        },
+        {
+            series: [
+                {
+                    name: 'CO₂',
+                    data: [300, 380, 420, 500, 620, 700, 760, 820, 900, 950]
+                },
+                {
+                    name: 'AQI',
+                    data: [150, 220, 280, 350, 430, 520, 600, 680, 760, 850]
+                },
+                {
+                    name: 'Radiação Solar',
+                    data: [50, 120, 250, 450, 700, 950, 850, 600, 300, 100]
+                },
+                {
+                    name: 'Radiação Cósmica',
+                    data: [400, 430, 450, 470, 500, 520, 540, 560, 580, 600]
+                },
+                {
+                    name: 'Temperatura',
+                    data: [200, 230, 280, 350, 450, 600, 700, 650, 500, 300]
+                }
+            ],
+
+            chart: {
+                type: 'line',
+                height: 400,
+                toolbar: {
+                    show: false
+                },
+                zoom: {
+                    enabled: false
+                }
+            },
+
+            colors: [
+                '#00FF66', // CO₂
+                '#4DA3FF', // AQI
+                '#FF5EC4', // Radiação Solar
+                '#FFD54A', // Radiação Cósmica
+                '#00FFFF'  // Temperatura
+            ],
+
+            stroke: {
+                curve: 'smooth',
+                width: 3
+            },
+
+            dataLabels: {
+                enabled: false
+            },
+
+            markers: {
+                size: 0,
+                hover: {
+                    size: 5
+                }
+            },
+
+            legend: {
+                position: 'top',
+                horizontalAlign: 'center',
+                fontSize: '14px',
+                labels: {
+                    colors: '#ffffff'
+                }
+            },
+
+            xaxis: {
+                categories: [
+                    '00:00',
+                    '02:00',
+                    '04:00',
+                    '06:00',
+                    '08:00',
+                    '10:00',
+                    '15:00',
+                    '18:00',
+                    '20:00',
+                    '22:00'
+                ],
+                labels: {
+                    style: {
+                        colors: '#999'
+                    }
+                },
+                axisBorder: {
+                    show: false
+                }
+            },
+
+            yaxis: {
+                min: 0,
+                max: 1000,
+                tickAmount: 5,
+
+                labels: {
+                    style: {
+                        colors: '#999'
+                    }
+                }
+            },
+
+            grid: {
+                show: true,
+                borderColor: '#2d2d2d',
+                strokeDashArray: 0,
+                xaxis: {
+                    lines: {
+                        show: true
+                    }
+                },
+                yaxis: {
+                    lines: {
+                        show: true
+                    }
+                }
+            },
+
+            tooltip: {
+                shared: true,
+                intersect: false
+            }
+        }
+        ]
 
         var chart = new ApexCharts(
             document.querySelector("#chart"),
-            options
+            options[0]
         );
 
+        var resources_chart = new ApexCharts(
+            document.querySelector("#resources-chart"),
+            options[1]
+        );
+
+        var line_chart = new ApexCharts(document.querySelector('#line-chart'), options[2])
+
         chart.render();
+        line_chart.render()
+        resources_chart.render();
 
 
     </script>
